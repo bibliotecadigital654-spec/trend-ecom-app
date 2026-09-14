@@ -25,7 +25,7 @@ col_logo, col_titulo = st.columns(2)
 with col_logo:
     st.markdown("<h1 style='font-size: 50px; margin: 0;'>📈</h1>", unsafe_allow_html=True)
 with col_titulo:
-    st.title("TrendEcom Pro v1.0")
+    st.title("ShopTrendPro v1.0")
     st.markdown("<p style='color: gray; margin-top: -15px;'>International TikTok Shop Intelligence Platform</p>", unsafe_allow_html=True)
 
 # 3. SISTEMA DE CONTROLE DE ACESSO COM SENHA REAL
@@ -42,7 +42,7 @@ if token_usuario != SENHA_CORRETA:
     else:
         st.error("❌ Chave de Acesso Inválida! Acesso negado.")
         
-    st.info("💡 Ainda não tem uma licença comercial? [Clique aqui para assinar por $49/mês](https://lemonsqueezy.com)")
+    st.info("💡 Ainda não tem uma licença comercial? [Clique aqui para assinar por $29/mês](https://lemonsqueezy.com)")
     st.stop() # Bloqueia o app se a senha estiver errada ou vazia
 
 st.sidebar.success("🔓 Acesso Comercial Liberado!")
