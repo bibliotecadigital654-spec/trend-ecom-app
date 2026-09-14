@@ -1,0 +1,1 @@
+# trend-ecom-app
