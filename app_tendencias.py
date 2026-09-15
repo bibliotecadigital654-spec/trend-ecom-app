@@ -42,7 +42,7 @@ if token_usuario != SENHA_CORRETA:
     else:
         st.error("❌ Chave de Acesso Inválida! Acesso negado.")
         
-    st.info("💡 Ainda não tem uma licença comercial? [Clique aqui para assinar por $29/mês](https://lemonsqueezy.com)")
+    st.info("💡 Ainda não tem uma licença comercial? [Clique aqui para assinar por $29/mês](https://buy.polar.sh/polar_cl_EWKb7oPH0dNKmxK7gBmcvHO87ZFWLkgCOXQYa0fYGkU)")
     st.stop() # Bloqueia o app se a senha estiver errada ou vazia
 
 st.sidebar.success("🔓 Acesso Comercial Liberado!")
