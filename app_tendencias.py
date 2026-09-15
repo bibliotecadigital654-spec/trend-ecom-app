@@ -5,10 +5,10 @@ import pandas as pd
 import requests
 import streamlit as st
 
-# 1. CONFIGURAÇÃO DA PÁGINA (Sempre a primeira linha do Streamlit)
+# 1. CONFIGURAÇÃO DA PÁGINA (Deve ser sempre a primeira linha)
 st.set_page_config(page_title="ShopTrendPro - TikTok Shop Intelligence", page_icon="📈", layout="wide")
 
-# 2. DESIGN MODO ESCURO DO TIKTOK (Magenta #FF0050 e Ciano #00F2FE)
+# 2. DESIGN MODO ESCURO DO TIKTOK (CSS Atualizado e Reforçado para Ocultação)
 st.markdown("""
     <style>
         /* Fundo preto profundo do app do TikTok */
@@ -43,27 +43,39 @@ st.markdown("""
         div[data-testid="stMetricValue"] { color: #00F2FE !important; font-weight: bold !important; }
         div[data-testid="stMetricLabel"] { color: #A0A0A0 !important; }
         
-               /* Caixas de Alerta */
+        /* Caixas de Alerta */
         .stAlert { background-color: #1a1a1a !important; border: 1px solid #FF0050 !important; border-radius: 8px !important; }
         
-        /* Oculta o menu nativo, o perfil do desenvolvedor e o rodapé do servidor */
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
-        div[data-testid="stStatusWidget"] {visibility: hidden;}
-        .viewerBadge_container__17w3m {display: none !important;}
+        /* ========================================================================= */
+        /* FORÇA COMPLETA DE OCULTAÇÃO DE LINKS E PERFIS INTERNOS DO STREAMLIT      */
+        /* ========================================================================= */
+        #MainMenu {visibility: hidden !important;}
+        footer {visibility: hidden !important;}
+        header {visibility: hidden !important;}
+        
+        /* Remove o botão flutuante e o balão do GitHub/Perfil que exibe o email */
+        [data-testid="stStatusWidget"] {visibility: hidden !important;}
+        .stActionButton {display: none !important;}
+        button[title="View profile"] {display: none !important;}
+        
+        /* Bloqueia todas as variações de badges de desenvolvedor da nuvem */
         div[class^="viewerBadge"] {display: none !important;}
+        div[class*="viewerBadge"] {display: none !important;}
+        span[class^="viewerBadge"] {display: none !important;}
+        iframe[title="Sign in with GitHub"] {display: none !important;}
     </style>
 """, unsafe_allow_html=True)
 
-
 # Topo do Painel com Estética Oficial do TikTok
-col_logo, col_titulo = st.columns(2)
-with col_logo:
-    st.markdown("<h1 style='font-size: 55px; margin: 0; padding-top: 5px; text-align: right;'>📈</h1>", unsafe_allow_html=True)
-with col_titulo:
-    st.markdown("<h1 style='margin-bottom: 0; padding-bottom: 0;'>ShopTrendPro</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #00F2FE !important; font-weight: bold; margin-top: -5px;'>International TikTok Shop Intelligence Platform</p>", unsafe_allow_html=True)
+st.markdown("""
+    <div style='display: flex; align-items: center; gap: 15px; margin-bottom: 20px;'>
+        <span style='font-size: 50px;'>📈</span>
+        <div>
+            <h1 style='margin: 0; padding: 0;'>ShopTrendPro</h1>
+            <p style='color: #00F2FE !important; font-weight: bold; margin: 0;'>International TikTok Shop Intelligence Platform</p>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
 # 3. SISTEMA DE CONTROLE DE ACESSO COM SENHA REAL (PAYWALL)
 st.sidebar.header("🔑 Assinatura e Licença")
@@ -79,9 +91,9 @@ if token_usuario != SENHA_CORRETA:
     else:
         st.error("❌ Chave de Acesso Inválida! Acesso negado.")
         
-    # MENSAGEM DE VENDA COM VALOR DE $29 (Como ainda estamos configurando o checkout, deixei o link em branco temporariamente)
+    # Link provisório direcionado ao site da Paddle para vendas de $29
     st.info("💡 Ainda não tem uma licença comercial? [Clique aqui para assinar por $29/mês](https://paddle.com)")
-    st.stop() # Bloqueia o aplicativo se não digitar a senha correta
+    st.stop() 
 
 st.sidebar.success("🔓 Acesso Comercial Liberado!")
 
