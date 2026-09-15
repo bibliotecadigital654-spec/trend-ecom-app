@@ -8,7 +8,7 @@ import streamlit as st
 # 1. CONFIGURAÇÃO DA PÁGINA (Deve ser sempre a primeira linha)
 st.set_page_config(page_title="ShopTrendPro - TikTok Shop Intelligence", page_icon="📈", layout="wide")
 
-# 2. DESIGN MODO ESCURO DO TIKTOK COM ULTRA-BLOQUEIO DE COMPONENTES EXTERNOS
+# 2. DESIGN MODO ESCURO DO TIKTOK COM ULTRA-OCULTAÇÃO DE COMPONENTES DE SERVIDOR
 st.markdown("""
     <style>
         /* Fundo preto profundo do app do TikTok */
@@ -47,24 +47,25 @@ st.markdown("""
         .stAlert { background-color: #1a1a1a !important; border: 1px solid #FF0050 !important; border-radius: 8px !important; }
         
         /* ========================================================================= */
-        /* FORÇA BRUTA DE OCULTAÇÃO (AGRESSIVO): ELIMINA ELEMENTOS FORA DO APP       */
+        /* REMOVE PERMANENTEMENTE QUALQUER BORDA, BOTÃO OU EMBUTIDO DO STREAMLIT      */
         /* ========================================================================= */
-        #MainMenu, footer, header { visibility: hidden !important; height: 0px !important; }
+        #MainMenu, footer, header { display: none !important; visibility: hidden !important; height: 0px !important; }
         [data-testid="stStatusWidget"], .stDeployButton, .stActionButton { display: none !important; }
         
-        /* Remove o painel flutuante inferior direito injetado pela nuvem (Viewer Badge) */
+        /* Alvo direto no Balão do Rodapé Injetado e suas variações de classe */
         div[class^="viewerBadge"], div[class*="viewerBadge"], 
         span[class^="viewerBadge"], span[class*="viewerBadge"],
-        div[id^="viewerBadge"], div[id*="viewerBadge"] { 
+        div[class^="embeddedAppMetaInfoBar"], div[class*="embeddedAppMetaInfoBar"],
+        .viewerBadge_container__17w3m, .embeddedAppMetaInfoBar_container__DxxL1 { 
             display: none !important; 
             visibility: hidden !important; 
+            opacity: 0 !important;
             height: 0px !important; 
             width: 0px !important;
         }
         
-        /* Força a janela interna a ignorar as margens do rodapé do servidor */
-        iframe { display: none !important; }
-        iframe[title="storage-sync-iframe"] { display: none !important; }
+        /* Remove a linha decorativa colorida do topo do servidor */
+        div[data-testid="stDecoration"] { display: none !important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -93,7 +94,6 @@ if token_usuario != SENHA_CORRETA:
     else:
         st.error("❌ Chave de Acesso Inválida! Acesso negado.")
         
-    # Link direcionado ao site da Paddle para vendas de $29
     st.info("💡 Ainda não tem uma licença comercial? [Clique aqui para assinar por $29/mês](https://paddle.com)")
     st.stop() 
 
@@ -107,7 +107,7 @@ def obter_proxies_gratuitos():
         url = "https://pubproxy.com"
         resposta = requests.get(url, timeout=5)
         if resposta.status_code == 200:
-            dados = resposta.json()
+            dados = response.json()
             return [f"http://{p['ipPort']}" for p in dados.get('data', [])]
     except:
         pass
