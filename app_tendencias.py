@@ -8,7 +8,7 @@ import streamlit as st
 # 1. CONFIGURAÇÃO DA PÁGINA (Deve ser sempre a primeira linha)
 st.set_page_config(page_title="ShopTrendPro - TikTok Shop Intelligence", page_icon="📈", layout="wide")
 
-# 2. DESIGN MODO ESCURO DO TIKTOK COM ULTRA-OCULTAÇÃO DE COMPONENTES DE SERVIDOR
+# 2. DESIGN MODO ESCURO DO TIKTOK COM COMPRESSÃO E ULTRA-OCULTAÇÃO DE COMPONENTES EXTERNOS
 st.markdown("""
     <style>
         /* Fundo preto profundo do app do TikTok */
@@ -47,24 +47,27 @@ st.markdown("""
         .stAlert { background-color: #1a1a1a !important; border: 1px solid #FF0050 !important; border-radius: 8px !important; }
         
         /* ========================================================================= */
-        /* REMOVE PERMANENTEMENTE QUALQUER BORDA, BOTÃO OU EMBUTIDO DO STREAMLIT      */
+        /* FORÇA BRUTA: APAGA O BOTÃO DO PERFIL, MENSAGEM DO PROVEDOR E MENU GLOBAIS  */
         /* ========================================================================= */
-        #MainMenu, footer, header { display: none !important; visibility: hidden !important; height: 0px !important; }
-        [data-testid="stStatusWidget"], .stDeployButton, .stActionButton { display: none !important; }
+        #MainMenu, footer, header { display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0px !important; }
+        [data-testid="stStatusWidget"], .stDeployButton, .stActionButton { display: none !important; visibility: hidden !important; }
         
-        /* Alvo direto no Balão do Rodapé Injetado e suas variações de classe */
+        /* Alvo absoluto nas classes dinâmicas injetadas pelo Streamlit Community Cloud (A bolinha do avatar e a caixa branca) */
         div[class^="viewerBadge"], div[class*="viewerBadge"], 
         span[class^="viewerBadge"], span[class*="viewerBadge"],
         div[class^="embeddedAppMetaInfoBar"], div[class*="embeddedAppMetaInfoBar"],
-        .viewerBadge_container__17w3m, .embeddedAppMetaInfoBar_container__DxxL1 { 
+        button[title="View profile"], a[href*="streamlit.io"],
+        iframe[src*="streamlit.io/identity"] { 
             display: none !important; 
             visibility: hidden !important; 
             opacity: 0 !important;
             height: 0px !important; 
             width: 0px !important;
+            pointer-events: none !important;
         }
         
-        /* Remove a linha decorativa colorida do topo do servidor */
+        /* Estica o app para preencher o espaço do rodapé ocultado */
+        .stAppDeployButton { display: none !important; }
         div[data-testid="stDecoration"] { display: none !important; }
     </style>
 """, unsafe_allow_html=True)
@@ -94,6 +97,7 @@ if token_usuario != SENHA_CORRETA:
     else:
         st.error("❌ Chave de Acesso Inválida! Acesso negado.")
         
+    # Link direcionado ao site da Paddle para vendas de $29
     st.info("💡 Ainda não tem uma licença comercial? [Clique aqui para assinar por $29/mês](https://paddle.com)")
     st.stop() 
 
@@ -107,7 +111,7 @@ def obter_proxies_gratuitos():
         url = "https://pubproxy.com"
         resposta = requests.get(url, timeout=5)
         if resposta.status_code == 200:
-            dados = response.json()
+            dados = resposta.json()
             return [f"http://{p['ipPort']}" for p in dados.get('data', [])]
     except:
         pass
