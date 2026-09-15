@@ -5,34 +5,62 @@ import pandas as pd
 import requests
 import streamlit as st
 
-# 1. CONFIGURAÇÃO DA PÁGINA
-st.set_page_config(page_title="ShopTrendPro - Análise de Tendências", page_icon="📈", layout="wide")
+# 1. CONFIGURAÇÃO DA PÁGINA (Sempre a primeira linha do Streamlit)
+st.set_page_config(page_title="ShopTrendPro - TikTok Shop Intelligence", page_icon="📈", layout="wide")
 
-# 2. DESIGN PROFISSIONAL
+# 2. DESIGN MODO ESCURO DO TIKTOK (Magenta #FF0050 e Ciano #00F2FE)
 st.markdown("""
     <style>
-        .reportview-container { background: #121212; }
-        .main .block-container { padding-top: 2rem; }
-        h1 { color: #FF0050 !important; font-family: 'Helvetica Neue', sans-serif; font-weight: bold; }
-        h3 { color: #00f2fe !important; }
-        .stButton>button { background-color: #FF0050; color: white; border-radius: 8px; width: 100%; font-weight: bold; }
-        .stButton>button:hover { background-color: #ee0047; color: white; }
+        /* Fundo preto profundo do app do TikTok */
+        .stApp { background-color: #010101 !important; color: #FFFFFF !important; }
+        
+        /* Ajusta as fontes e títulos */
+        h1 { color: #FFFFFF !important; font-family: 'Helvetica Neue', sans-serif; font-weight: 800; letter-spacing: -1px; }
+        h2, h3, p, span, label { color: #FFFFFF !important; }
+        
+        /* Botões no estilo TikTok Neon com efeito de brilho */
+        .stButton>button { 
+            background: linear-gradient(90deg, #FF0050 0%, #00F2FE 100%) !important; 
+            color: #FFFFFF !important; 
+            border-radius: 4px !important; 
+            border: none !important;
+            font-weight: bold !important; 
+            font-size: 16px !important;
+            padding: 10px 24px !important;
+            box-shadow: 0px 4px 15px rgba(255, 0, 80, 0.3) !important;
+        }
+        .stButton>button:hover { 
+            background: linear-gradient(90deg, #ee0047 0%, #00dade 100%) !important; 
+            transform: scale(1.02);
+            transition: 0.2s;
+        }
+        
+        /* Barra Lateral Escura */
+        section[data-testid="stSidebar"] { background-color: #121212 !important; border-right: 1px solid #222222; }
+        section[data-testid="stSidebar"] * { color: #FFFFFF !important; }
+        
+        /* Números das Métricas em Ciano */
+        div[data-testid="stMetricValue"] { color: #00F2FE !important; font-weight: bold !important; }
+        div[data-testid="stMetricLabel"] { color: #A0A0A0 !important; }
+        
+        /* Caixas de Alerta */
+        .stAlert { background-color: #1a1a1a !important; border: 1px solid #FF0050 !important; border-radius: 8px !important; }
     </style>
 """, unsafe_allow_html=True)
 
-# Topo do Painel com Banner/Logo
+# Topo do Painel com Estética Oficial do TikTok
 col_logo, col_titulo = st.columns(2)
 with col_logo:
-    st.markdown("<h1 style='font-size: 50px; margin: 0;'>📈</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='font-size: 55px; margin: 0; padding-top: 5px; text-align: right;'>📈</h1>", unsafe_allow_html=True)
 with col_titulo:
-    st.title("ShopTrendPro v1.0")
-    st.markdown("<p style='color: gray; margin-top: -15px;'>International TikTok Shop Intelligence Platform</p>", unsafe_allow_html=True)
+    st.markdown("<h1 style='margin-bottom: 0; padding-bottom: 0;'>ShopTrendPro</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #00F2FE !important; font-weight: bold; margin-top: -5px;'>International TikTok Shop Intelligence Platform</p>", unsafe_allow_html=True)
 
-# 3. SISTEMA DE CONTROLE DE ACESSO COM SENHA REAL
+# 3. SISTEMA DE CONTROLE DE ACESSO COM SENHA REAL (PAYWALL)
 st.sidebar.header("🔑 Assinatura e Licença")
 token_usuario = st.sidebar.text_input("Insira sua Chave de Acesso (API Token):", type="password")
 
-# ⚠️ VOCÊ PODE MUDAR A SENHA 'EcomPro2026' PARA A SENHA QUE QUISER ABAIXO:
+# Sua senha secreta do software
 SENHA_CORRETA = "EcomPro2026"
 
 if token_usuario != SENHA_CORRETA:
@@ -42,13 +70,14 @@ if token_usuario != SENHA_CORRETA:
     else:
         st.error("❌ Chave de Acesso Inválida! Acesso negado.")
         
-    st.info("💡 Ainda não tem uma licença comercial? [Clique aqui para assinar por $29/mês](https://buy.polar.sh/polar_cl_EWKb7oPH0dNKmxK7gBmcvHO87ZFWLkgCOXQYa0fYGkU)")
-    st.stop() # Bloqueia o app se a senha estiver errada ou vazia
+    # MENSAGEM DE VENDA COM VALOR DE $29 (Como ainda estamos configurando o checkout, deixei o link em branco temporariamente)
+    st.info("💡 Ainda não tem uma licença comercial? [Clique aqui para assinar por $29/mês](https://paddle.com)")
+    st.stop() # Bloqueia o aplicativo se não digitar a senha correta
 
 st.sidebar.success("🔓 Acesso Comercial Liberado!")
 
 # -----------------------------------------------------------------------------
-# 4. MOTORES INTERNOS DO SOFTWARE (Protegidos por senha)
+# 4. MOTORES INTERNOS DO SOFTWARE
 # -----------------------------------------------------------------------------
 def obter_proxies_gratuitos():
     try:
@@ -107,7 +136,7 @@ def gerar_dados_simulados(hashtag):
         })
     return pd.DataFrame(dados)
 
-# 5. CONTROLES DE BUSCA (Aparecem abaixo do Paywall na barra lateral)
+# 5. CONTROLES DE BUSCA
 st.sidebar.markdown("---")
 st.sidebar.header("⚙️ Painel de Pesquisa")
 hashtag_busca = st.sidebar.text_input("Hashtag para Analisar:", value="tiktokmademebuyit").replace("#", "")
