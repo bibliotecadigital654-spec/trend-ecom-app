@@ -6,7 +6,7 @@ import requests
 import streamlit as st
 
 # 1. CONFIGURAÇÃO DA PÁGINA
-st.set_page_config(page_title="TrendEcom - Análise de Tendências", page_icon="📈", layout="wide")
+st.set_page_config(page_title="ShopTrendPro - Análise de Tendências", page_icon="📈", layout="wide")
 
 # 2. DESIGN PROFISSIONAL
 st.markdown("""
