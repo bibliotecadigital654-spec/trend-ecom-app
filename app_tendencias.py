@@ -43,10 +43,19 @@ st.markdown("""
         div[data-testid="stMetricValue"] { color: #00F2FE !important; font-weight: bold !important; }
         div[data-testid="stMetricLabel"] { color: #A0A0A0 !important; }
         
-        /* Caixas de Alerta */
+               /* Caixas de Alerta */
         .stAlert { background-color: #1a1a1a !important; border: 1px solid #FF0050 !important; border-radius: 8px !important; }
+        
+        /* Oculta o menu nativo, o perfil do desenvolvedor e o rodapé do servidor */
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        div[data-testid="stStatusWidget"] {visibility: hidden;}
+        .viewerBadge_container__17w3m {display: none !important;}
+        div[class^="viewerBadge"] {display: none !important;}
     </style>
 """, unsafe_allow_html=True)
+
 
 # Topo do Painel com Estética Oficial do TikTok
 col_logo, col_titulo = st.columns(2)
