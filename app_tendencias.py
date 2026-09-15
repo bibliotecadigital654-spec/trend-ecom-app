@@ -8,7 +8,7 @@ import streamlit as st
 # 1. CONFIGURAÇÃO DA PÁGINA (Deve ser sempre a primeira linha)
 st.set_page_config(page_title="ShopTrendPro - TikTok Shop Intelligence", page_icon="📈", layout="wide")
 
-# 2. DESIGN MODO ESCURO DO TIKTOK (CSS Atualizado e Reforçado para Ocultação)
+# 2. DESIGN MODO ESCURO DO TIKTOK COM ULTRA-BLOQUEIO DE COMPONENTES EXTERNOS
 st.markdown("""
     <style>
         /* Fundo preto profundo do app do TikTok */
@@ -47,22 +47,24 @@ st.markdown("""
         .stAlert { background-color: #1a1a1a !important; border: 1px solid #FF0050 !important; border-radius: 8px !important; }
         
         /* ========================================================================= */
-        /* FORÇA COMPLETA DE OCULTAÇÃO DE LINKS E PERFIS INTERNOS DO STREAMLIT      */
+        /* FORÇA BRUTA DE OCULTAÇÃO (AGRESSIVO): ELIMINA ELEMENTOS FORA DO APP       */
         /* ========================================================================= */
-        #MainMenu {visibility: hidden !important;}
-        footer {visibility: hidden !important;}
-        header {visibility: hidden !important;}
+        #MainMenu, footer, header { visibility: hidden !important; height: 0px !important; }
+        [data-testid="stStatusWidget"], .stDeployButton, .stActionButton { display: none !important; }
         
-        /* Remove o botão flutuante e o balão do GitHub/Perfil que exibe o email */
-        [data-testid="stStatusWidget"] {visibility: hidden !important;}
-        .stActionButton {display: none !important;}
-        button[title="View profile"] {display: none !important;}
+        /* Remove o painel flutuante inferior direito injetado pela nuvem (Viewer Badge) */
+        div[class^="viewerBadge"], div[class*="viewerBadge"], 
+        span[class^="viewerBadge"], span[class*="viewerBadge"],
+        div[id^="viewerBadge"], div[id*="viewerBadge"] { 
+            display: none !important; 
+            visibility: hidden !important; 
+            height: 0px !important; 
+            width: 0px !important;
+        }
         
-        /* Bloqueia todas as variações de badges de desenvolvedor da nuvem */
-        div[class^="viewerBadge"] {display: none !important;}
-        div[class*="viewerBadge"] {display: none !important;}
-        span[class^="viewerBadge"] {display: none !important;}
-        iframe[title="Sign in with GitHub"] {display: none !important;}
+        /* Força a janela interna a ignorar as margens do rodapé do servidor */
+        iframe { display: none !important; }
+        iframe[title="storage-sync-iframe"] { display: none !important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -91,7 +93,7 @@ if token_usuario != SENHA_CORRETA:
     else:
         st.error("❌ Chave de Acesso Inválida! Acesso negado.")
         
-    # Link provisório direcionado ao site da Paddle para vendas de $29
+    # Link direcionado ao site da Paddle para vendas de $29
     st.info("💡 Ainda não tem uma licença comercial? [Clique aqui para assinar por $29/mês](https://paddle.com)")
     st.stop() 
 
